@@ -121,7 +121,7 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {
+  {/* hello*/
 	 /* HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
 	  HAL_Delay(250);*/
 	      HAL_GPIO_WritePin(NCS_GPIO_Port, NCS_Pin, GPIO_PIN_RESET);
