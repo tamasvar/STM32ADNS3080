@@ -85,8 +85,10 @@ void Error_Handler(void);
 #define SPI1_MOSI_GPIO_Port GPIOA
 #define BOOT1_Pin GPIO_PIN_2
 #define BOOT1_GPIO_Port GPIOB
-#define NCS_Pin GPIO_PIN_15
-#define NCS_GPIO_Port GPIOE
+#define NCSJ_Pin GPIO_PIN_13
+#define NCSJ_GPIO_Port GPIOE
+#define NCSB_Pin GPIO_PIN_15
+#define NCSB_GPIO_Port GPIOE
 #define CLK_IN_Pin GPIO_PIN_10
 #define CLK_IN_GPIO_Port GPIOB
 #define reset_Pin GPIO_PIN_11

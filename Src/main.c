@@ -26,14 +26,13 @@
 #include "usb_host.h"
 #include "gpio.h"
 
-
 /* Private includes ----------------------------------------------------------*/
-
 /* USER CODE BEGIN Includes */
 #include "ADNS3080.h"
 
-uint8_t txdata[1]={0x00};
-uint8_t rxdata[7];
+uint8_t txdata[1]={0x00};/* ez nem kell*/
+uint8_t rxdatab[7];       /*ebböl 2 kell*/
+uint8_t rxdataj[7];
 uint8_t txbuff[7]={ADNS3080_MOTION,ADNS3080_DELTA_X,ADNS3080_DELTA_Y,0x00,0x00,0x00,0x00};
 uint8_t buff[7]={0x00,0x00,0x00,0x00,0x00,0x00,0x00};
 uint8_t motion_burst[7];
@@ -42,6 +41,14 @@ int i=0;
 float dX=0;
 float dY=0;
 float uart_txdata[2];
+/*
+uint8_t Rxdata[8];
+uint8_t incr_X;
+uint8_t incr_Y;
+
+uint16_t CPI;
+uint8_t uartTxBuffer[7];
+*/
 /* USER CODE BEGIN Includes */
 
 /* USER CODE END Includes */
@@ -77,7 +84,13 @@ void MX_USB_HOST_Process(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+/*
+struct {
+	float dx;
+	float dy;
 
+}uart_txdata;
+*/
 /* USER CODE END 0 */
 
 /**
@@ -115,21 +128,61 @@ int main(void)
   MX_USB_HOST_Init();
   MX_SPI2_Init();
   /* USER CODE BEGIN 2 */
-  ADNS3080DownloadSROM();
+  ADNS3080DownloadSROMB();
+  HAL_Delay(5);
+  ADNS3080DownloadSROMJ();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
-  {/* hello*/
-	 /* HAL_GPIO_TogglePin(GPIOD, GPIO_PIN_15);
-	  HAL_Delay(250);*/
-	      HAL_GPIO_WritePin(NCS_GPIO_Port, NCS_Pin, GPIO_PIN_RESET);
+  {
+        /*
+		uartTxBuffer[0]=255;
+		uartTxBuffer[1]=255;
+		uartTxBuffer[2]=255;
+		*/
+        /*
+	 //SROM uploaded
+		HAL_GPIO_WritePin(GPIOE,GPIO_PIN_11,1); //LD7
+//Motion burst
+		HAL_GPIO_WritePin(ADNS3080_CS_PORT, ADNS3080_CS_PIN,0);
+		my_delay();
+		HAL_SPI_Transmit(&hspi2, txdata, 1, 10);
+		my_delay();
+		HAL_SPI_Receive(&hspi2, rxdata, 7, 10);
+		my_delay();
+		HAL_GPIO_WritePin(ADNS3080_CS_PORT, ADNS3080_CS_PIN,1);
+		my_delay();
+
+		ADNS3080MotionData.Motion=rxdata[0];
+		ADNS3080MotionData.DeltaX=rxdata[1];
+		ADNS3080MotionData.DeltaY=rxdata[2];
+		ADNS3080MotionData.SQUAL=rxdata[3];
+		ADNS3080MotionData.ShutterUpper=rxdata[4];
+		ADNS3080MotionData.ShutterLower=rxdata[5];
+		ADNS3080MotionData.MaximumPixel=rxdata[6];
+
+		dX+=ADNS3080MotionData.DeltaX*0.0635;
+		dY+=ADNS3080MotionData.DeltaY*0635;
+
+		uart_txdata[0]=dX;
+		uart_txdata[1]=dY;
+
+		HAL_UART_Transmit(&huart2,uart_txdata,2,10);
+        */
+	      HAL_GPIO_WritePin(GPIOE,GPIO_PIN_15, GPIO_PIN_RESET);
 	 	  HAL_Delay(5);
-	 	  state=HAL_SPI_TransmitReceive(&hspi2, txbuff, rxdata, 5, 10);
+	 	  HAL_SPI_TransmitReceive(&hspi2, txbuff, rxdatab, 4, 10);
 	 	  HAL_Delay(5);
-	 	  HAL_GPIO_WritePin(NCS_GPIO_Port, NCS_Pin, GPIO_PIN_SET);
+	 	  HAL_GPIO_WritePin(GPIOE,GPIO_PIN_15, GPIO_PIN_SET);
+	 	  HAL_Delay(10);
+	 	  HAL_GPIO_WritePin(GPIOE,GPIO_PIN_13, GPIO_PIN_RESET);
 	 	  HAL_Delay(5);
+	 	  HAL_SPI_TransmitReceive(&hspi2, txbuff, rxdataj, 4, 10);
+	 	  HAL_Delay(5);
+	 	  HAL_GPIO_WritePin(GPIOE,GPIO_PIN_13, GPIO_PIN_SET);
+	 	  HAL_Delay(10);
     /* USER CODE END WHILE */
     MX_USB_HOST_Process();
 

@@ -1,4 +1,4 @@
-Application/User/ADNS3080.o: ../Application/User/ADNS3080.c \
+Application/User/ADNS3080B.o: ../Application/User/ADNS3080B.c \
  ../Application/User/ADNS3080.h E:/optikal/optikal/Inc/spi.h \
  E:/optikal/optikal/Inc/main.h \
  E:/optikal/optikal/Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
