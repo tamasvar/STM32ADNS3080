@@ -4,7 +4,8 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Application/User/ADNS3080.c \
+../Application/User/ADNS3080B.c \
+../Application/User/ADNS3080J.c \
 E:/optikal/optikal/Src/gpio.c \
 E:/optikal/optikal/Src/i2c.c \
 E:/optikal/optikal/Src/i2s.c \
@@ -17,7 +18,8 @@ E:/optikal/optikal/Src/usbh_conf.c \
 E:/optikal/optikal/Src/usbh_platform.c 
 
 OBJS += \
-./Application/User/ADNS3080.o \
+./Application/User/ADNS3080B.o \
+./Application/User/ADNS3080J.o \
 ./Application/User/gpio.o \
 ./Application/User/i2c.o \
 ./Application/User/i2s.o \
@@ -30,7 +32,8 @@ OBJS += \
 ./Application/User/usbh_platform.o 
 
 C_DEPS += \
-./Application/User/ADNS3080.d \
+./Application/User/ADNS3080B.d \
+./Application/User/ADNS3080J.d \
 ./Application/User/gpio.d \
 ./Application/User/i2c.d \
 ./Application/User/i2s.d \

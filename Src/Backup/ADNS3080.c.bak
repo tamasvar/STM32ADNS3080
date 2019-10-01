@@ -1,20 +1,17 @@
 #include "ADNS3080.h"
 #include "spi.h"
-#include "main.h"
-
-
 //SROM inicializáláshoz szükséges változók
 uint8_t txBuff[2] = {};
 uint8_t rxData[2]={};
 //SROM tartalma
 MY_SROM_DATA;
 
-void ADNS3080DownloadSROM(void) {
+void SROM_download(void) {
 
 	//reset
-	HAL_GPIO_WritePin(reset_GPIO_Port, reset_Pin, GPIO_PIN_SET);
+	HAL_GPIO_WritePin(ADNS3080_RST_PORT, ADNS3080_RST_PIN, 1);
 	HAL_Delay(1);
-	HAL_GPIO_WritePin(reset_GPIO_Port, reset_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(ADNS3080_RST_PORT, ADNS3080_RST_PIN, 0);
 	HAL_Delay(1);
 
 	//0x44 beírása 0x20-ba
@@ -42,7 +39,7 @@ void ADNS3080DownloadSROM(void) {
 	HAL_Delay(1);
 
 	//SROM feltöltés kezdete 0x60 (SROM_Load register)
-	HAL_GPIO_WritePin(NCS_GPIO_Port, NCS_Pin, 0);
+	HAL_GPIO_WritePin(ADNS3080_CS_PORT, ADNS3080_CS_PIN, 0);
 
 
 	txBuff[0] = ADNS3080_REGISTER_WRITE_FLAG | ADNS3080_SROM_LOAD;
@@ -55,6 +52,6 @@ void ADNS3080DownloadSROM(void) {
 	HAL_Delay(1);
 
 
-	HAL_GPIO_WritePin(NCS_GPIO_Port, NCS_Pin, 1);
+	HAL_GPIO_WritePin(ADNS3080_CS_PORT, ADNS3080_CS_PIN, 1);
 	HAL_Delay(1);
 }

@@ -1,6 +1,7 @@
 "Application/SW4STM32/startup_stm32f407xx.o"
 "Application/SW4STM32/syscalls.o"
-"Application/User/ADNS3080.o"
+"Application/User/ADNS3080B.o"
+"Application/User/ADNS3080J.o"
 "Application/User/gpio.o"
 "Application/User/i2c.o"
 "Application/User/i2s.o"
